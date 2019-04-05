@@ -28,6 +28,8 @@ import { AuthService} from './services/auth.service';
  */
 import { appRouter } from '../routes';
 import {environment} from '../environments/environment';
+import { ClarityModule } from '@clr/angular';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,9 @@ import {environment} from '../environments/environment';
     RouterModule.forRoot(appRouter),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    ClarityModule,
+    BrowserAnimationsModule
   ],
   providers: [ChatService, AuthService],
   bootstrap: [AppComponent]

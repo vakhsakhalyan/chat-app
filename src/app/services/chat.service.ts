@@ -15,23 +15,27 @@ export class ChatService {
   user: firebase.User;
   chatMessages: AngularFireList<ChatMessage>;
   chatMessage: ChatMessage;
-  userName: Observable<string>;
+  userName: string;
   constructor(private db: AngularFireDatabase, private afAuth:AngularFireAuth) {
     this.afAuth.authState.subscribe(auth => {
       if (auth != undefined && auth != null) {
         this.user = auth;
       }
+      this.getUser().subscribe(a => {
+        // debugger;
+        // this.userName = a.displayName;
+      })
     });
   }
 
   sendMessage(msg:string) {
     const timestamp = this.getTimeStamp();
-    const email = "test@example.com";//this.user.email;
+    const email = this.user.email;
     this.chatMessages = this.getMessages();
     this.chatMessages.push({
       message: msg,
       timeSent: timestamp,
-      userName: "test",//this.userName,
+      userName: this.userName,
       email: email
     });
   }
@@ -41,8 +45,8 @@ export class ChatService {
     const date = now.getUTCFullYear() + '/' +
                 (now.getUTCMonth() - 1) + '/' +
                  now.getUTCDate();
-    const time = now.getUTCHours() + '/' +
-                 now.getUTCMinutes() + '/' +
+    const time = now.getUTCHours() + ':' +
+                 now.getUTCMinutes() + ':' +
                  now.getUTCSeconds();
 
     return date + ' ' + time;
@@ -51,5 +55,16 @@ export class ChatService {
 
   getMessages(): AngularFireList<ChatMessage>  {
     return this.db.list('messages');
+  }
+
+  getUser() {
+    const userId = this.user.uid;
+    const path = `/users/${userId}`;
+    return this.db.object(path).valueChanges();
+  }
+
+  getUsers() {
+    const path = '/users';
+    return this.db.list(path);
   }
 }
