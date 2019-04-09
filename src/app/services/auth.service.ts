@@ -27,7 +27,7 @@ export class AuthService {
       .then(resolve => {
         const status = 'online';
         this.setUserStatus(status);
-      }).catch(error => console.log(error));
+      });
   }
 
   authUser() {
