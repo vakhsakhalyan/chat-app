@@ -19,7 +19,7 @@ export class AuthService {
   }
 
   get currentUserId(): string {
-    return this.authState !== null ? this.authState.uid : '';
+    return this.authState !== null ? this.authState.user.uid : '';
   }
 
   login(email: string, password: string) {
@@ -28,6 +28,10 @@ export class AuthService {
         const status = 'online';
         this.setUserStatus(status);
       }).catch(error => console.log(error));
+  }
+
+  authUser() {
+    return this.user;
   }
 
   singnUp(email, password, displayName) {

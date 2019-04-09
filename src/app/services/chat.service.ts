@@ -21,9 +21,8 @@ export class ChatService {
       if (auth != undefined && auth != null) {
         this.user = auth;
       }
-      this.getUser().subscribe(a => {
-        // debugger;
-        // this.userName = a.displayName;
+      this.getUser().subscribe((a:any) => {
+       this.userName = a.displayName;
       })
     });
   }
